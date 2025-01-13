@@ -1,0 +1,50 @@
+@if (loading) {
+<div class="overlay"></div>
+}
+<div class="feedback-form-container">
+  <form (ngSubmit)="submitForm()" [formGroup]="feedbackForm">
+    <div class="icons-container">
+      <div class="header">
+        <h3>Hoe eenvoudig kon je je huis online plaatsen?</h3>
+      </div>
+      <div class="icons">
+        @for (icon of iconsArray; track icon; let i = $index) {
+        <div class="icon" [ngClass]="{'selected': selectedIconIndex === i, 'disabled': disableIcons}"
+          [ngStyle]="{'--bg-color': icon.bgColor, '--icon-color': icon.color}"
+          (click)="onIconClick(icon.ratingValue, i)" [title]="icon.tooltip">
+          <i [class]="icon.class"></i>
+        </div>
+        }
+      </div>
+      @if (submitted && ratingErrorMessage) {
+      <p class="error rating-error">{{ ratingErrorMessage }}</p>
+      }
+    </div>
+    @if (iconClicked && !showSuccessMessage) {
+    <div class="message-container">
+      <div class="form-control-container">
+        <label for="message" class="form-control-label">Geef je graag wat meer uitleg?</label>
+        <textarea name="message" class="form-control" rows="6" formControlName="message"
+          [ngClass]="{'error-border': submitted && feedbackForm.invalid}"></textarea>
+        @if (submitted && messageErrorMessage) {
+        <p class="error">{{ messageErrorMessage }}</p>
+        }
+      </div>
+      <div class="button-container">
+        <span class="information">Wij verwerken uw gegevens conform onze privacy policy</span>
+        <button class="button" type="submit" [disabled]="loading">Verzenden</button>
+      </div>
+      @if (apiErrorMessage) {
+      <p class="error">{{ apiErrorMessage }}</p>
+      }
+    </div>
+    } @else if (showSuccessMessage) {
+    <div class="success-container">
+      <p class="success-message">Feedback met succes verzonden!</p>
+    </div>
+    }
+    @if (loading) {
+    <div class="loading-spinner"></div>
+    }
+  </form>
+</div>

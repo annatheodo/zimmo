@@ -1,0 +1,12 @@
+<div class="article-container">
+    @for (article of articles; track article) {
+    <div class="main">
+        <img class="img" [src]="article.src" [alt]="article.alt">
+        <div class="body">
+            <h5 class="title">{{ article.title }}</h5>
+            <p class="text">{{ article.text }}</p>
+            <a [href]="article.link" class="link">{{ article.linkText }} &raquo;</a>
+        </div>
+    </div>
+    }
+</div>

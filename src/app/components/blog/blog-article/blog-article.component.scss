@@ -1,0 +1,36 @@
+.article-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+
+    .main {
+        max-width: 240px;
+        text-align: left;
+        padding-bottom: 30px;
+        background-color: #fff;
+
+        .body {
+            font-size: 12px;
+            padding: 0 15px;
+
+            .title {
+                font-size: inherit;
+            }
+
+            .text {
+                font-family: 'details';
+                color: #a8aab7;
+            }
+
+            .link {
+                text-decoration: none;
+                color: #3cbafd;
+
+                &:hover {
+                    color: #82d2fd;
+                }
+            }
+        }
+    }
+}

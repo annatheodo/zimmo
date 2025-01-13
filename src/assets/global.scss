@@ -1,0 +1,40 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'main';
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+    font-family: 'main';
+    src: url('./fonts/Gotham\ Rounded\ Book.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'accent';
+    src: url('./fonts/Gotham\ Rounded\ Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'details';
+    src: url('./fonts/Gotham\ Rounded\ Light.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'stylized';
+    src: url('./fonts/Gotham\ Rounded\ Book\ Italic.otf') format('opentype');
+    font-weight: normal;
+    font-style: italic;
+}
