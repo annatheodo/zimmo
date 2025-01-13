@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { FeedbackService } from '../../../services/feedback.service';
-import { Icon } from '../../../models/icon.model';
-import { ICONS } from '../../../data/icons';
+import { Icon } from '../../models/icon.model';
+import { ICONS } from '../../data/icons';
+import { FeedbackService } from '../../services/feedback.service';
 
 @Component({
   selector: 'app-feedback-form',
