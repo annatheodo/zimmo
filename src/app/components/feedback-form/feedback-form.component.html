@@ -16,8 +16,8 @@
         </div>
         }
       </div>
-      @if (submitted && ratingErrorMessage) {
-      <p class="error rating-error">{{ ratingErrorMessage }}</p>
+      @if (feedbackForm.get('ratingValue')?.touched && feedbackForm.get('ratingValue')?.invalid) {
+      <p class="error rating-error">{{ errorMessages.ratingValue }}</p>
       }
     </div>
     @if (iconClicked && !showSuccessMessage) {
@@ -25,17 +25,17 @@
       <div class="form-control-container">
         <label for="message" class="form-control-label">Geef je graag wat meer uitleg?</label>
         <textarea name="message" class="form-control" rows="6" formControlName="message"
-          [ngClass]="{'error-border': submitted && feedbackForm.invalid}"></textarea>
-        @if (submitted && messageErrorMessage) {
-        <p class="error">{{ messageErrorMessage }}</p>
+          [ngClass]="{'error-border': feedbackForm.get('message')?.touched && feedbackForm.get('message')?.invalid}"></textarea>
+        @if (feedbackForm.get('message')?.touched && feedbackForm.get('message')?.invalid) {
+        <p class="error">{{ errorMessages.message }}</p>
         }
       </div>
       <div class="button-container">
         <span class="information">Wij verwerken uw gegevens conform onze privacy policy</span>
         <button class="button" type="submit" [disabled]="loading">Verzenden</button>
       </div>
-      @if (apiErrorMessage) {
-      <p class="error">{{ apiErrorMessage }}</p>
+      @if (errorMessages.apiError) {
+      <p class="error">{{ errorMessages.apiError }}</p>
       }
     </div>
     } @else if (showSuccessMessage) {

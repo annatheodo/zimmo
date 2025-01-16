@@ -17,21 +17,19 @@ export class FeedbackFormComponent implements OnInit {
   iconsArray: Icon[] = ICONS;
   iconClicked: boolean = false;
   selectedIconIndex!: number;
-  apiErrorMessage: string = '';
-  ratingErrorMessage: string = '';
-  messageErrorMessage: string = '';
-  submitted: boolean = false;
   loading: boolean = false;
   disableIcons: boolean = false;
   showSuccessMessage: boolean = false;
+  errorMessages = {
+    ratingValue: 'Selecteer een beoordeling.',
+    message: 'Mag niet leeg zijn.',
+    apiError: ''
+  };
 
   constructor(private feedbackService: FeedbackService) { }
 
   ngOnInit(): void {
     this.initializeForm();
-    this.feedbackForm.get('message')?.valueChanges.subscribe(() => {
-      this.clearErrorMessages();
-    });
   }
 
   onIconClick(ratingValue: number, $index: number) {
@@ -41,20 +39,12 @@ export class FeedbackFormComponent implements OnInit {
     this.iconClicked = true;
 
     this.feedbackForm.get('ratingValue')?.setValue(ratingValue);
-    this.ratingErrorMessage = '';
   }
 
   submitForm() {
-    this.submitted = true;
     this.feedbackForm.markAllAsTouched();
 
     if (this.feedbackForm.invalid) {
-      const ratingError = this.feedbackForm.get('ratingValue')?.errors?.['required'];
-      const messageError = this.feedbackForm.get('message')?.errors?.['required'];
-
-      this.ratingErrorMessage = ratingError ? 'Selecteer een beoordeling.' : '';
-      this.messageErrorMessage = messageError ? 'Mag niet leeg zijn.' : '';
-
       return;
     }
 
@@ -74,7 +64,7 @@ export class FeedbackFormComponent implements OnInit {
       },
       error: error => {
         this.loading = false;
-        this.apiErrorMessage = error.message;
+        this.errorMessages.apiError = error.message;
         console.error('Error submitting the form:', error);
       }
     })
@@ -85,12 +75,5 @@ export class FeedbackFormComponent implements OnInit {
       ratingValue: new FormControl('', Validators.required),
       message: new FormControl('', Validators.required)
     });
-  }
-
-  private clearErrorMessages() {
-    this.submitted = false;
-    this.ratingErrorMessage = '';
-    this.messageErrorMessage = '';
-    this.apiErrorMessage = '';
   }
 }
