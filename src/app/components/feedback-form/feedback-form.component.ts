@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Icon } from '../../models/icon.model';
 import { ICONS } from '../../data/icons';
@@ -15,15 +15,15 @@ import { FeedbackService } from '../../services/feedback.service';
 export class FeedbackFormComponent implements OnInit {
   feedbackForm!: FormGroup;
   iconsArray: Icon[] = ICONS;
-  iconClicked: boolean = false;
-  selectedIconIndex!: number;
-  loading: boolean = false;
-  disableIcons: boolean = false;
-  showSuccessMessage: boolean = false;
+  iconClicked = signal<boolean>(false);
+  selectedIconIndex = signal<number | null>(null);
+  loading = signal<boolean>(false);
+  disableIcons = signal<boolean>(false);
+  showSuccessMessage = signal<boolean>(false);
   errorMessages = {
     ratingValue: 'Selecteer een beoordeling.',
     message: 'Mag niet leeg zijn.',
-    apiError: ''
+    apiError: signal('')
   };
 
   constructor(private feedbackService: FeedbackService) { }
@@ -33,10 +33,10 @@ export class FeedbackFormComponent implements OnInit {
   }
 
   onIconClick(ratingValue: number, $index: number) {
-    if (this.disableIcons) return;
+    if (this.disableIcons()) return;
 
-    this.selectedIconIndex = $index;
-    this.iconClicked = true;
+    this.selectedIconIndex.set($index);
+    this.iconClicked.set(true);
 
     this.feedbackForm.get('ratingValue')?.setValue(ratingValue);
   }
@@ -48,7 +48,7 @@ export class FeedbackFormComponent implements OnInit {
       return;
     }
 
-    this.loading = true;
+    this.loading.set(true);
 
     const feedback = {
       ratingValue: this.feedbackForm.get('ratingValue')?.value,
@@ -57,14 +57,14 @@ export class FeedbackFormComponent implements OnInit {
 
     this.feedbackService.submitFeedback(feedback).subscribe({
       next: () => {
-        this.loading = false;
-        this.disableIcons = true;
-        this.showSuccessMessage = true;
-        this.selectedIconIndex = -1;
+        this.loading.set(false);
+        this.disableIcons.set(true);
+        this.showSuccessMessage.set(true);
+        this.selectedIconIndex.set(null);
       },
       error: error => {
-        this.loading = false;
-        this.errorMessages.apiError = error.message;
+        this.loading.set(false);
+        this.errorMessages.apiError.set(error.message);
         console.error('Error submitting the form:', error);
       }
     })

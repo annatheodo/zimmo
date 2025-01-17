@@ -1,4 +1,4 @@
-@if (loading) {
+@if (loading()) {
 <div class="overlay"></div>
 }
 <div class="feedback-form-container">
@@ -9,7 +9,7 @@
       </div>
       <div class="icons">
         @for (icon of iconsArray; track icon; let i = $index) {
-        <div class="icon" [ngClass]="{'selected': selectedIconIndex === i, 'disabled': disableIcons}"
+        <div class="icon" [ngClass]="{'selected': selectedIconIndex() === i, 'disabled': disableIcons()}"
           [ngStyle]="{'--bg-color': icon.bgColor, '--icon-color': icon.color}"
           (click)="onIconClick(icon.ratingValue, i)" [title]="icon.tooltip">
           <i [class]="icon.class"></i>
@@ -20,7 +20,7 @@
       <p class="error rating-error">{{ errorMessages.ratingValue }}</p>
       }
     </div>
-    @if (iconClicked && !showSuccessMessage) {
+    @if (iconClicked() && !showSuccessMessage()) {
     <div class="message-container">
       <div class="form-control-container">
         <label for="message" class="form-control-label">Geef je graag wat meer uitleg?</label>
@@ -32,18 +32,18 @@
       </div>
       <div class="button-container">
         <span class="information">Wij verwerken uw gegevens conform onze privacy policy</span>
-        <button class="button" type="submit" [disabled]="loading">Verzenden</button>
+        <button class="button" type="submit" [disabled]="loading()">Verzenden</button>
       </div>
-      @if (errorMessages.apiError) {
-      <p class="error">{{ errorMessages.apiError }}</p>
+      @if (errorMessages.apiError()) {
+      <p class="error">{{ errorMessages.apiError() }}</p>
       }
     </div>
-    } @else if (showSuccessMessage) {
+    } @else if (showSuccessMessage()) {
     <div class="success-container">
       <p class="success-message">Feedback met succes verzonden!</p>
     </div>
     }
-    @if (loading) {
+    @if (loading()) {
     <div class="loading-spinner"></div>
     }
   </form>
